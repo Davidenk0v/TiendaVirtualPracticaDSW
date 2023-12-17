@@ -3,20 +3,23 @@ include '../public/top.php';
 
 use David\Shop\model\Database;
 
+require_once 'model/email.php';
+
+
 
 if (isset($_POST['username'], $_POST['email'], $_POST['password'], $_POST['password2'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $password2 = $_POST['password2'];
-    $message = "Bienvenido $username!. Pincha en el enlace para confirmar tu correo";
+    $userNum = rand(100, 10000);
+    $message = "<p><a href=\"http://localhost/PHP/TiendaVirtualPracticaDSW/src/validate.php?email=$email&user_number=$userNum\">pincha aquí para validarte</a></p>";
     if (!empty($username) && !empty($email) && !empty($password) && !empty($password2)) {
         if ($password == $password2) {
             $password = password_hash($password, PASSWORD_DEFAULT);
             require_once 'model/Database.php';
             $database = new Database();
             if ($database->selectUser($email) == null) {
-                $userNum = rand(100, 10000);
                 $database->insertUser($username, $email, $password, $userNum);
                 sendMail($email, $username, $message);
                 header('Location: ../public/index.php');
@@ -32,8 +35,6 @@ if (isset($_POST['username'], $_POST['email'], $_POST['password'], $_POST['passw
         $_SESSION['error'] = 'Debes rellenar todos los campos';
         header('Location: register.php');
     }
-} else {
-    $_SESSION['error'] = 'Debes rellenar todos los campos';
 }
 ?>
 <h1>Registro de usuario</h1>

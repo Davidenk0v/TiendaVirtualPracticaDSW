@@ -46,4 +46,11 @@ class Database
         $stmt = $this->link->prepare('INSERT INTO users (username, email, password, user_number) VALUES (:username, :email, :password, :user_number)');
         $stmt->execute([':username' => $username, ':email' => $email, ':password' => $password, ':user_number' => $user_number]);
     }
+
+    function validateUser($email)
+    {
+        $stmt = $this->link->prepare('UPDATE users SET validate = true WHERE email=:email');
+        $stmt->execute([':email' => $email]);
+        $stmt = null;
+    }
 }
