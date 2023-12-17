@@ -1,0 +1,19 @@
+{
+    "name": "david/shop",
+    "description": "Tienda virtual con registro y autenticación",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "David\\Shop\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David",
+            "email": "davidalvper@gmail.com"
+        }
+    ]
+}
